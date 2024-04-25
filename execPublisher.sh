@@ -1,0 +1,1 @@
+docker exec -d app php /var/www/html/publisher.php

@@ -8,7 +8,7 @@ class Publisher
     {
         $publisher = self::getInstance();
         $count = $publisher->executeQuery("SELECT COUNT(*) AS num FROM task_types");
-        return $count->num;
+        return $count[0]->num;
     }
     
     public static function publish()
@@ -21,6 +21,10 @@ class Publisher
             $priority = rand(1, 5);
             $publisher->executeQuery("INSERT INTO tasks(task_type_id, priority) VALUES(:task_type, :priority)", 
             [':task_type' => $type, ':priority'=> $priority]);
+            $insertId = $publisher->lastInsertId();
+            if($type == 1){
+                $publisher->executeQuery("INSERT INTO task_metas(task_id, `key`, `value`) VALUES(:task_id, 'url','https://php.net') ",[':task_id' => $insertId]);
+            }
         }
     }
 }

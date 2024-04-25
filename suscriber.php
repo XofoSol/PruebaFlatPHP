@@ -6,7 +6,7 @@ class Suscriber
 
     public function getTask(){
         $suscriber = Suscriber::getInstance();
-        $tasks = $suscriber->executeQuery("SELECT * FROM tasks WHERE executing = 0 AND executed = 0 AND intent < 3 AND started_at <= NOW() ORDER BY priority ASC, created_at ASC LIMIT 1");
+        $tasks = $suscriber->executeQuery("SELECT * FROM tasks WHERE executing = 0 AND executed = 0 AND intent < 3 AND start_at <= NOW() ORDER BY priority ASC, created_at ASC LIMIT 1");
         if(empty($tasks)){
             return null;
         }
@@ -16,7 +16,7 @@ class Suscriber
 
     public function registerInit($task_id){
         $suscriber = Suscriber::getInstance();
-        $suscriber->executeQuery("UPDATE tasks SET executing = 1 WHERE id = :task_id", [':task_id', $task_id]);
+        $suscriber->executeQuery("UPDATE tasks SET executing = 1 WHERE id = :task_id", [':task_id' => $task_id]);
     }
     
     public function registerSuccess($task_id, $result)
@@ -41,7 +41,10 @@ class Suscriber
 
         // Si no hay tareas, simplemente reiniciamos el bucle.
         if(is_null($task)){
-            sleep(1);
+            usleep(5000);
+            unset($suscriber);
+            unset($task);
+            gc_collect_cycles();
             self::working();
             return;
         }
@@ -61,10 +64,19 @@ class Suscriber
             $result = $execution->handle();
             $suscriber->registerSuccess($task->id, $result);
 
-        }catch(Exception){
-            $suscriber->registerFail($task->id, $task->intent);
+        }catch(Exception $e){
+            $suscriber->registerFail($task->id, $task->intent, $e->getMessage());
         }finally{
-            sleep(1);
+            usleep(100);
+            unset($suscriber);
+            unset($task);
+            unset($task_metas);
+            unset($executionName);
+            unset($params);
+            unset($execution);
+            unset($result);
+            unset($e);
+            gc_collect_cycles();
             self::working();
             return;
         }

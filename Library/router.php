@@ -21,7 +21,7 @@ class Router
                 echo call_user_func([ApiController::class, $segments[1]], $segments[2]);
         }catch(Exception $e){
             http_response_code(400);
-            echo "Bad Request";
+            echo "Bad Request: ".$e->getMessage();
         }
         
 

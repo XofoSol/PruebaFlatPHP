@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-  php-apache-environment:
-    container_name: php-apache
+  app:
+    container_name: app
     build: ./
     environment:
       - SERVER=db
@@ -11,6 +11,7 @@ services:
     volumes:
       - ./:/var/www/html/
       - ./apache.conf:/etc/apache2/sites-enabled/default.conf
+      - ./nice-worker.conf:/etc/supervisor/conf.d/nice-worker.conf
     ports:
       - 8000:80
 
