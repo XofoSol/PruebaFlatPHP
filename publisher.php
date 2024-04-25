@@ -1,17 +1,29 @@
 <?php
 require 'vendor/autoload.php';
+
+/**
+ * Publicador masivo de tareas
+ */
 class Publisher
 {
     use Library\ConnectedToDb;
 
-    public function countTypes()
+    /**
+     * Cuenta los tipos de tarea registrados en la base de datos
+     * @return int
+     */
+    public function countTypes():int
     {
         $publisher = self::getInstance();
         $count = $publisher->executeQuery("SELECT COUNT(*) AS num FROM task_types");
         return $count[0]->num;
     }
     
-    public static function publish()
+    /**
+     * Registra 100 tareas al azar en la cola de trabajo.
+     * @return void
+     */
+    public static function publish():void
     {
         $publisher = self::getInstance();
         $countTypes = $publisher->countTypes();

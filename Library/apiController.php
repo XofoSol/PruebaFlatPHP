@@ -4,11 +4,19 @@ namespace Library;
 
 use Exception;
 
+/**
+ * Controlador del API de tareas
+ */
 class ApiController
 {
     use ConnectedToDb;
 
-    public static function listTasks(){
+    /**
+     * Lista todas las tareas de la cola de trabajo
+     * @return string
+     */
+    public static function listTasks():string
+    {
         $method = $_SERVER['REQUEST_METHOD'];
         if($method !== 'GET'){
             throw new Exception('Method error');
@@ -18,7 +26,13 @@ class ApiController
         return json_encode($list);
     }
 
-    public static function getTask(int $task_id){
+    /**
+     * Obtiene una tarea de la cola de trabajo por su id
+     * @param int $task_id El id de la tarea a obtener
+     * @return string
+     */
+    public static function getTask(int $task_id):string
+    {
         $method = $_SERVER['REQUEST_METHOD'];
         if($method !== 'GET'){
             throw new Exception('Method error');
@@ -28,7 +42,12 @@ class ApiController
         return json_encode($task[0]);
     }
 
-    public static function createTask(){
+    /**
+     * Crea una nueva tarea según la petición efectuada
+     * @return string
+     */
+    public static function createTask():string
+    {
         $method = $_SERVER['REQUEST_METHOD'];
         if($method != 'POST'){
             throw new Exception('Method error: '.$method);

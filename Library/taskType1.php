@@ -4,15 +4,27 @@ namespace Library;
 
 use Exception;
 
+/**
+ * Tipo de tarea 1: Retorna el título de la página cuya url se provee.
+ */
 class TaskType1 implements Task
 {
     private array $params;
+    
+    /**
+     * Método constructor.  
+     * @param array $params
+     */
     public function __construct(array $params)
     {
         $this->params = $params;
     }
 
-    public function handle()
+    /**
+     * Ejecución de la tarea
+     * @return string
+     */
+    public function handle():string
     {
         try{
             $title = '';

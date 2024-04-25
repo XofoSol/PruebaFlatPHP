@@ -6,9 +6,17 @@ use Error;
 use Exception;
 use Library\ApiController;
 
+/**
+ * Controla las rutas del API
+ */
 class Router
 {
-    public static function manage($url)
+    /**
+     * Ejecuta el método adecuado según la ruta que se le provee.
+     * @param string $url
+     * @return void
+     */
+    public static function manage(string $url):void
     {
         $url = ltrim($url, '/');
         $url = rtrim($url, '/');
@@ -38,7 +46,6 @@ class Router
             http_response_code(404);
             echo "Page Not Found";
         }
-        
 
     }
 }

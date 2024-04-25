@@ -2,7 +2,14 @@
 
 namespace Library;
 
+/**
+ * Establece la estructura que deben llevar los objetos tarea
+ */
 interface Task
 {
-    public function handle();
+    /**
+     * Ejecuta la tarea programada
+     * @return string
+     */
+    public function handle():string;
 }
