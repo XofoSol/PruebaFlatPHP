@@ -1,0 +1,1 @@
+docker exec app supervisorctl status

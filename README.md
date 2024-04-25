@@ -14,6 +14,10 @@ Hay que dar un poco de tiempo para que se inicie el servicio de MySQL y ejecute 
 ```
 sh execSuscriber.sh
 ```
+Si se desea revisar el estatus de los suscribers, se puede hacer ejecutando el siguiente comando:
+```
+sh statusSuscriber.sh
+```
 Éste comando iniciará, a través de Supervisor, 10 suscribers simultáneos, que ejecutarán las tareas registradas en base de datos.
 Para ponerlo a prueba masivamente, puede ejecutarse el comando 
 ```
